@@ -21,14 +21,12 @@ class UsersController
         $surname = $request->getParam('surname');
         $username = $request->getParam('username');
         $password = $request->getParam('password');
-        $newUser = new Users($name, $surname, $username, $password);
         $em =  $this->ci->get('em');
         $result = $em->getRepository(\App\Entity\Users::class)->findOneBy(['username' => $username]);
         if (!empty($result)) {
             echo "Username exist";
         } else {
-            $em->persist($newUser);
-            $em->flush();
+            $em->getRepository(\App\Entity\Users::class)->signUp($name, $surname, $username, $password);
             return $response->withRedirect('/login');
         }
     }
