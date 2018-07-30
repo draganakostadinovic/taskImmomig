@@ -20,11 +20,10 @@ class TripController
     public function upload(Request $request, Response $response, array $args) {
         $em = $this->ci->get('em');
 
-        $directory =  $this->ci->get('upload_directory');
         $uploadedFiles = $request->getUploadedFiles();
         $uploadedFile = $uploadedFiles['fileToUpload'];
         $name = $request->getParam('name');
-        $newDirectory =  __DIR__ . '/uploads' . DIRECTORY_SEPARATOR . $name . '.gpx';
+        $newDirectory =  __DIR__ . '/uploads' . DIRECTORY_SEPARATOR . $name;
         $uploadedFile->moveTo($newDirectory);
 
         $gpx = simplexml_load_file($newDirectory);
@@ -41,8 +40,7 @@ class TripController
             $result1 = explode('Z', $result[1]);
             $time = $result1[0];
 
-            $em->persist(new Trip($name, $lon, $lat, $ele, $date, $time, $user_id));
-            $em->flush();
+            $em->getRepository(\App\Entity\Trip::class)->newTrip($name, $lon, $lat, $ele, $date, $time, $user_id);
         }
         unset($gpx);
     }
@@ -52,17 +50,9 @@ class TripController
         $em = $this->ci->get('em');
         $userId = $em->getRepository(\App\Entity\Users::class)->findOneBy(['username' => $_SESSION['username']]);
 
-        $qb = $em->createQueryBuilder();
-        $results = $qb -> select('t.name')
-            ->from ('App\Entity\Trip', 't')
-            ->where('t.user_id = :user_id')
-            ->setParameter('user_id', $userId->getId())
-            ->distinct(TRUE)
-            ->getQuery()
-            ->getResult();
-        $names = [];
-
-        foreach($results as $result){
+        $results = $em->getRepository(\App\Entity\Trip::class)->findTrips($userId->getId());        $names = [];
+      
+        foreach ($results as $result) {
             array_push($names, $result['name']);
         }
         return $view->render($response, 'trips.twig', ['name' => $names]);

@@ -36,7 +36,6 @@ class Trip
     private $time;
 
     /**
-     * @ORM\Column(name="user_id", type = "int")
      * @ORM\ManyToOne(targetEntity="Users")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
