@@ -1,0 +1,23 @@
+{% extends 'app.twig' %}
+
+{% block content %}
+<div class="row">
+	<div class="col-md-6 col-md-offset-3">
+		<div class="panel panel-default">
+			<div class="panel-heading">All trips</div>
+			<div class="panel-body">
+				<form method="post" name="registrationForm" action="/registration">
+          <div class="form-group">
+						<label for="User Name"></label>
+            <ul>
+              {% for n in name %}
+                <li>{{ n }}</li>
+              {% endfor %}
+            </ul>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
