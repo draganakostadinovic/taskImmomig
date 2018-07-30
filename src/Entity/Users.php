@@ -1,9 +1,11 @@
 <?php
 
+namespace App\Entity;
+
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity (repositoryClass="\App\Repository\UsersRepository")
  * @ORM\Table(name="users")
  */
 class Users
@@ -11,16 +13,28 @@ class Users
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
      */
     private $id;
+
     /** @ORM\Column(type="string") */
     private $name;
+
     /** @ORM\Column(type="string") */
     private $surname;
+
     /** @ORM\Column(type="string") */
     private $username;
+
     /** @ORM\Column(type="string") */
     private $password;
+
+    public function __construct($name, $surname, $username, $password) {
+        $this->name = $name;
+        $this->surname = $surname;
+        $this->username = $username;
+        $this->password = password_hash($password, PASSWORD_DEFAULT);
+    }
 
     /** @param $id */
     public function setId($id) {
@@ -28,7 +42,7 @@ class Users
     }
 
     /** @return int */
-    public function getIt() {
+    public function getId() {
         return $this->id;
     }
 
@@ -66,7 +80,7 @@ class Users
     public function setPassword($password) {
         $this->password = $password;
     }
-    
+
     /** @return string */
     public function getPassword() {
         return $this->password;
