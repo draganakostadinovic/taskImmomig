@@ -25,6 +25,16 @@ $app->get('/login', function (Request $request, Response $response, array $args)
     }
 });
 
+$app->get('/upload', function (Request $request, Response $response, array $args) {
+    if(!$_SESSION){
+        return $this->response->withRedirect('/login');
+    } else {
+        return $this->view->render($response, 'upload.twig');
+    }
+});
+
 $app->post('/registration', '\App\Controllers\UsersController:createUser');
 $app->post('/login', '\App\Controllers\UsersController:login');
 $app->get('/logout', '\App\Controllers\UsersController:logOut');
+$app->post('/upload', '\App\Controllers\TripController:upload');
+$app->get('/listAll', '\App\Controllers\TripController:getTrips');

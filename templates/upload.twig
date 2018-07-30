@@ -1,0 +1,34 @@
+{% extends 'app.twig' %}
+
+{% block content %}
+<div class="row">
+	<div class="col-md-6 col-md-offset-3">
+		<div class="panel panel-default">
+			<div class="panel-heading">Upload</div>
+			<div class="panel-body">
+				<form method="post" name="uploadForm" action="/upload" enctype="multipart/form-data">
+					<div class="form-group">
+						<label for="name">Name trip</label>
+						<input type="text" class="form-control" id="name" name="name" required>
+					</div>
+          <div class="form-group">
+						<label for="fileToUpload">File</label>
+						<input type="file" name="fileToUpload" id="fileToUpload">
+					</div>
+					<div class="form-group">
+						<button type="submit" id="upload" class="btn btn-default">Upload!</button>
+					</div>
+				</form>
+        <form method="get" name="uploadForm" action="/logout" enctype="multipart/form-data">
+          <div class="form-group">
+            <button type="submit" id="logout" class="btn btn-default">Logout!</button>
+          </div>
+        </form>
+        <form method="get" action="/listAll">
+          <button type="submit" id="logout" class="btn btn-default">Show trips!</button>
+        </form>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
