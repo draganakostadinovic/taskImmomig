@@ -50,7 +50,9 @@ class TripController
         $em = $this->ci->get('em');
         $userId = $em->getRepository(\App\Entity\Users::class)->findOneBy(['username' => $_SESSION['username']]);
 
-        $results = $em->getRepository(\App\Entity\Trip::class)->findTrips($userId->getId());        $names = [];
+        $results = $em->getRepository(\App\Entity\Trip::class)->findTrips($userId->getId());        
+        
+        $names = [];
       
         foreach ($results as $result) {
             array_push($names, $result['name']);
