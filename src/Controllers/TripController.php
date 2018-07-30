@@ -60,11 +60,11 @@ class TripController
             ->distinct(TRUE)
             ->getQuery()
             ->getResult();
-        $niz = [];
+        $names = [];
 
         foreach($results as $result){
-            array_push($niz, $result['name']);
+            array_push($names, $result['name']);
         }
-        return $view->render($response, 'trips.twig', ['name' => $niz]);
+        return $view->render($response, 'trips.twig', ['name' => $names]);
     }
 }
